@@ -11,10 +11,10 @@
 # apt install check                # Only need if you want to run tests
 
 LIBS=-lpcre -lcrypto -lm -lpthread
-CFLAGS=-ggdb -O3 -Wall
-# CFLAGS=-ggdb -O3 -Wall -I /usr/local/cuda-10.2/include/
+# CFLAGS=-ggdb -O3 -Wall
+CFLAGS=-ggdb -O3 -Wall -I /usr/local/cuda-10.2/include/
 
-OBJS=vanitygen.o oclvanitygen.o oclvanityminer.o oclengine.o keyconv.o pattern.o util.o groestl.o sha3.o ed25519.o \
+OBJS=oclvanitygen.o oclvanityminer.o oclengine.o keyconv.o pattern.o util.o groestl.o sha3.o ed25519.o \
      stellar.o base32.o crc16.o
 PROGS=vanitygen++ keyconv oclvanitygen++ oclvanityminer
 
@@ -31,12 +31,9 @@ else
 endif
 
 
-most: vanitygen++ keyconv
+most: oclvanitygen++ keyconv
 
 all: $(PROGS)
-
-vanitygen++: vanitygen.o pattern.o util.o groestl.o sha3.o ed25519.o stellar.o base32.o crc16.o
-	$(CC) $^ -o $@ $(CFLAGS) $(LIBS)
 
 oclvanitygen++: oclvanitygen.o oclengine.o pattern.o util.o groestl.o sha3.o
 	$(CC) $^ -o $@ $(CFLAGS) $(LIBS) $(OPENCL_LIBS)
